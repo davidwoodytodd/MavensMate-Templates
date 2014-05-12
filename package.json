@@ -87,6 +87,12 @@
 			"file_name"		: "HeaderPageBlock.page",
 			"description" 	: "Visualforce Page with SectionHeader and PageBlock",
 			"author" 		: "MavensMate"
+		},
+		{
+			"name" 			: "Complex Page",
+			"file_name"		: "HeaderPageBlock.page",
+			"description" 	: "Visualforce Page with Script, PageBlocks & Sections",
+			"author" 		: "David Todd"
 		}
 	],
 	"ApexTrigger" : [
