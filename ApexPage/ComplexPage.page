@@ -1,0 +1,143 @@
+<apex:page standardController="StandardObject" extensions="MyController" action="{!MyAction}" title="MyTitle: {!MyReference}" >
+    <c:jQueryReferences />
+    <script>
+        var j$ = jQuery.noConflict();
+
+        // this overrides the salesforce function and prevents any field from having inital focus
+        function setFocusOnLoad() {}
+
+        function myFunction() {
+            // some code
+        }
+
+        // this function escapes all of the required chars passed from $Component
+        // for use with j$
+        // ex: j$(esc(fieldPassedBy_$Component)).val();
+        function esc(myid) {
+            return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
+        }
+
+        j$(function() {
+            myFunction();
+        });
+
+    </script>
+
+    <style rel="stylesheet" type="text/css">
+        ul {
+            margin-top: 0px !important;
+            margin-bottom: 0px;
+        }
+    </style>
+
+    <apex:form >
+        <apex:sectionHeader title="MyTitle" subtitle="{!MyReference}"/>
+        <apex:pageMessages />
+        <apex:pageBlock >
+
+            <apex:pageBlockSection id="PageBlockSectionId">
+                <apex:outputField value="{!MyOutputField}"/>
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel>Label</apex:outputLabel>
+                    <apex:outputLink value="/apex/LeasePage?leaseId={!Case.Lease_ID__c}" target="_new">{!MyValue}</apex:outputLink>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection id="statuses" title="Status & Next Steps" collapsible="true">
+                <apex:outputField value="{!MyValue}" rendered="{!MethodOnController}"/>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection columns="1" id="AnId" title="A Title" collapsible="true" rendered="{!MethodOnController}">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="Text" for="Something"/>
+                    <apex:actionRegion >
+                        <apex:inputField value="{!MyValue}" id="AnId">
+                            <apex:actionSupport event="onchange" rerender="Section1, Section2, Section3" action="{!MethodOnController}"/>
+                        </apex:inputField>
+                    </apex:actionRegion>
+                </apex:pageblockSectionItem>
+
+                <apex:inputField value="{!MyValue}" rendered="{!MyRender}">
+                    <apex:actionSupport event="onchange" rerender="Section1, Section2" action="{!DoSomething}"/>
+                </apex:inputField>
+            </apex:pageBlockSection>
+
+            <!-- pageBlockTable example -->
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockTable id="" value="{!}"  var="">
+
+                    <apex:facet name="header">
+                        <apex:outputPanel >
+                            <apex:outputText value="Page {!pageNumber} of {!pageSize} in {!resultSize} Results"/>
+                            <apex:outputPanel >&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputPanel>
+                            <apex:commandLink value="Previous" action="{!previous}" reRender="" onclick="popup();" styleClass=""
+                            rendered="{!IF(SomeValue),'true','false')}" status="" oncomplete="myFunction()"/>
+                            <apex:outputText value="Previous" rendered="{!IF(NOT(SomeValue),'true','false')}"/>
+                            <apex:outputPanel >&nbsp;|&nbsp;</apex:outputPanel>
+                            <apex:commandLink value="Text" action="{!next}" reRender="commGrid" onclick="popup();" styleClass="" rendered="{!IF(Something.hasNext,'true','false')}" status="" oncomplete="myFunction()"/>
+                            <apex:outputText value="Text" rendered="{!IF(NOT(Something.hasNext),'true','false')}"/>
+                        </apex:outputPanel>
+                    </apex:facet>
+
+                    <apex:column >
+                        <apex:facet name="header"><input type="checkbox" id="" onclick="myFunction(this.checked);"/>&nbsp;Add to Contract?</apex:facet>
+                        <apex:inputCheckbox value="{!}" id="addToContactFlag" styleClass="checkCurrentOLI isChanged" rendered="{!allowSelection}" onclick="myFunction('{!$Component.}','{!$Component.}');"/>
+                        <apex:image value="{!IF(SomeValue, '/img/checkbox_checked.gif', '/img/checkbox_unchecked.gif')}" rendered="{!IF(SomeValue = false, true, false)}"/>
+                    </apex:column>
+
+                    <apex:column headerValue="Text">
+                        <apex:facet name="header"></apex:facet>
+                        <apex:outputText value="{!}"/>
+                    </apex:column>
+
+                    <apex:column headerValue="Text">
+                        <b><apex:outputLabel value="Text"/></b>
+                        <apex:outputText value="{!}"/><br/>
+                        <apex:outputText value="{0, date, MM/dd/yyyy}">
+                            <apex:param value="{!SomeDate}" />
+                        </apex:outputText>
+                    </apex:column>
+
+                    <apex:column headerValue="Text" rendered="{!IF(NOT(SomeValue = 'Something'), true, false)}">
+                        <apex:outputPanel id="">
+                            <apex:outputLabel value="Text"/>
+                            <apex:inputField value="{!}" styleClass="" onclick="myFunction(this.checked, '{!$Component.}');"/>
+                            <apex:inputField value="{!}" styleClass="" onchange="myFunction(this, '{!}', '{!$Component.}'); return false;"/>
+                            <apex:inputHidden id="" value="{!}" />
+                            <apex:inputHidden id="" value="{!}" />
+                        </apex:outputPanel>
+                    </apex:column>
+
+                    <!-- table inside of a table -->
+                    <apex:column >
+                       <apex:facet name="header">
+                             Products
+                        </apex:facet>
+                        <apex:pageBlockTable value="{!}" var="" >
+
+                            <apex:column headerValue="Text" rendered="{!IF(SomeValue = 'Something', true, false)}">
+                                <apex:inputField value="{!}" id="" styleClass="" rendered="{!IF(SomeValue, true, false)}" onclick="myFunction('{!$Component.}','{!$Component.}', '{!$Component.}', '{!$Component.}','{!$Component.}');" />
+                                <apex:outputField value="{!}" rendered="{!IF(NOT(SomeValue), true, false)}" />
+                            </apex:column>
+
+                            <apex:column headerValue="" rendered="{!}">
+                                <apex:selectList id="" value="{!}" size="1" styleClass="" onchange="myFunction('{!$Component.}', '{!$Component.}', '{!$Component.}', '{!$Component.}');">
+                                    <apex:selectOptions value="{!}" />
+                                </apex:selectList>
+                            </apex:column>
+
+                        </apex:pageBlockTable>
+                    </apex:column>
+
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value=" Next " action="{!MethodOnController}" onclick="return myFunction();"/>
+                <apex:commandButton value="Cancel" immediate="true" action="{!MethodOnController}" />
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>
