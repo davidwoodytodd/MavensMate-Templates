@@ -273,6 +273,19 @@
 		            "default" 		: "MyVisualforcePageName"
 		        }
 		   ]
+		},
+		{
+			"name" 			: "Complex Page",
+			"file_name"		: "HeaderPageBlock.page",
+			"description" 	: "Visualforce Page with Script, PageBlocks & Sections",
+			"author" 		: "David Todd",
+			"params" 		: [ 
+		        {   
+		            "name"          : "api_name",
+		            "description"   : "Visualforce Page API Name",
+		            "default" 		: "MyVisualforcePageName"
+		        }
+		   ]
 		}
 	],
 	"ApexTrigger" : [
